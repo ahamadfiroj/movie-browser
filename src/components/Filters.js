@@ -2,14 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FiltersContainer, FilterSelect, FilterInput, FilterButton } from '../styles/StyledComponents';
 import { fetchGenres } from '../utils/api';
 
-function Filters({ onFilterChange, disabled, setIsCurrentFetchEmpty }) {
-  const [filters, setFilters] = useState({
-    genre: '',
-    yearFrom: '',
-    yearTo: '',
-    ratingFrom: '',
-    ratingTo: '',
-  });
+function Filters({ onFilterChange, disabled, setIsCurrentFetchEmpty, filters, applyFilters }) {
 
   const [fetchGenreOptions, setGenres] = useState([]);
 
@@ -21,36 +14,15 @@ function Filters({ onFilterChange, disabled, setIsCurrentFetchEmpty }) {
     fetchInitialData();
   }, []);
 
-  useEffect(() => {
-    if (disabled) {
-      setFilters({
-        genre: '',
-        yearFrom: '',
-        yearTo: '',
-        ratingFrom: '',
-        ratingTo: '',
-      })
-      onFilterChange({
-        genre: '',
-        yearFrom: '',
-        yearTo: '',
-        ratingFrom: '',
-        ratingTo: '',
-      });
-    }
-  }, [disabled])
-
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFilters(prevFilters => ({
-      ...prevFilters,
+    let updateFilter = {...filters}
+    updateFilter = {
+      ...updateFilter,
       [name]: value
-    }));
+    }
+    onFilterChange(updateFilter);
     setIsCurrentFetchEmpty(false)
-  };
-
-  const applyFilters = () => {
-    onFilterChange(filters);
   };
 
   return (
