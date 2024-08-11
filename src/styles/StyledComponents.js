@@ -16,6 +16,7 @@ export const MainContent = styled.main`
   display: flex;
   flex-direction: column;
   gap: 20px;
+  padding-top: 80px;
 `;
 
 // Header
@@ -24,6 +25,11 @@ export const HeaderContainer = styled.header`
   color: white;
   padding: 20px 0;
   text-align: center;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 999;
 `;
 
 export const HeaderTitle = styled.h1`
@@ -54,6 +60,7 @@ export const MovieCardContainer = styled.div`
   overflow: hidden;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-5px);
@@ -91,7 +98,7 @@ export const MovieInfo = styled.p`
 
 // SearchBar
 export const SearchBarContainer = styled.div`
-  margin-bottom: 20px;
+  margin: 20px 40px 20px 0;
 `;
 
 export const SearchInput = styled.input`
@@ -119,7 +126,12 @@ export const FiltersContainer = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
-
+  button[disabled]{
+    &:hover{
+      background-color: #007bff;
+      cursor:default;
+    }
+  }
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -130,6 +142,7 @@ export const FilterInput = styled.input`
   font-size: 0.9rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+  min-width: 100px;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -180,5 +193,22 @@ export const FavoriteButtonStyled = styled.button`
 
   &.active {
     color: #ff0000;
+  }
+`;
+
+export const DetailContainer = styled.div`
+  padding: 20px;
+`;
+
+export const DownloadButton = styled.a`
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  &:hover {
+    background-color: #0056b3;
   }
 `;

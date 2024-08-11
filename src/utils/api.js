@@ -3,16 +3,23 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 
 export async function searchMovies(query, filters, page = 1) {
   try {
-    const url = new URL(`${BASE_URL}/search/movie`);
+    let url;
+    url = new URL(`${BASE_URL}/search/movie`);
     url.searchParams.append('api_key', API_KEY);
-    url.searchParams.append('query', query);
+    url.searchParams.append('query', query || null);
     url.searchParams.append('page', page);
-
-    if (filters.genre) url.searchParams.append('with_genres', filters.genre);
-    if (filters.yearFrom) url.searchParams.append('primary_release_date.gte', `${filters.yearFrom}-01-01`);
-    if (filters.yearTo) url.searchParams.append('primary_release_date.lte', `${filters.yearTo}-12-31`);
-    if (filters.ratingFrom) url.searchParams.append('vote_average.gte', filters.ratingFrom);
-    if (filters.ratingTo) url.searchParams.append('vote_average.lte', filters.ratingTo);
+    if (query.trim() == '') {
+      url = new URL(`${BASE_URL}/discover/movie`);
+      url.searchParams.append('api_key', API_KEY);
+      url.searchParams.append('page', page);
+    }
+    if (!query || query.trim() === '') {
+      if (filters.genre) url.searchParams.append('with_genres', filters.genre);
+      if (filters.yearFrom) url.searchParams.append('primary_release_date.gte', `${filters.yearFrom}-01-01`);
+      if (filters.yearTo) url.searchParams.append('primary_release_date.lte', `${filters.yearTo}-12-31`);
+      if (filters.ratingFrom) url.searchParams.append('vote_average.gte', filters.ratingFrom);
+      if (filters.ratingTo) url.searchParams.append('vote_average.lte', filters.ratingTo);
+    }
 
     const response = await fetch(url);
     if (!response.ok) {
@@ -43,3 +50,24 @@ export const fetchGenres = async () => {
   const data = await response.json();
   return data.genres;
 };
+
+export async function getMovieDetails(movieId) {
+  const url = `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&append_to_response=videos`;
+  const response = await fetch(url);
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(`Failed to fetch movie details: ${response.statusText}`);
+  }
+
+  const trailer = data.videos.results.find(video => video.type === 'Trailer');
+
+  return {
+    id: data.id,
+    title: data.title,
+    overview: data.overview,
+    videoUrl: trailer ? `https://www.youtube.com/embed/${trailer.key}` : null,
+    trailerKey: trailer ? trailer.key : null,
+  };
+}
+
