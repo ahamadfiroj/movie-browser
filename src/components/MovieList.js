@@ -26,7 +26,6 @@ function MovieList({ movies, favorites, setFavorites, loading, loadMore }) {
           ref={index === movies.length - 1 ? lastMovieElementRef : null}
         />
       ))}
-      {loading && <p>Loading...</p>}
     </MovieListContainer>
   );
 }
