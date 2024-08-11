@@ -51,7 +51,7 @@ function App() {
       setLoading(true);
       setError(null);
       try {
-        const results = await searchMovies(null, {}, 1);
+        const results = await searchMovies('', {}, 1);
         if (Array.isArray(results) && !results.length) {
           setIsCurrentFetchEmpty(true);
         }

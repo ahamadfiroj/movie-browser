@@ -3,9 +3,10 @@ import { toggleFavorite } from '../utils/storage';
 import { FavoriteButtonStyled } from '../styles/StyledComponents';
 
 function FavoriteButton({ movieId, isFavorite, setFavorites }) {
-  const handleClick = () => {
+  const handleClick = (e) => {
     const newFavorites = toggleFavorite(movieId);
     setFavorites(newFavorites);
+    e.stopPropagation()
   };
 
   return (
