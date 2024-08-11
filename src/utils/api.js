@@ -8,7 +8,7 @@ export async function searchMovies(query, filters, page = 1) {
     url.searchParams.append('api_key', API_KEY);
     url.searchParams.append('query', query || null);
     url.searchParams.append('page', page);
-    if (query.trim() == '') {
+    if (query.trim() === '') {
       url = new URL(`${BASE_URL}/discover/movie`);
       url.searchParams.append('api_key', API_KEY);
       url.searchParams.append('page', page);
