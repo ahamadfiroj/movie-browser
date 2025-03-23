@@ -7,11 +7,11 @@ function Filters({ onFilterChange, disabled, setIsCurrentFetchEmpty, filters, ap
   const [fetchGenreOptions, setGenres] = useState([]);
 
   useEffect(() => {
-    const fetchInitialData = async () => {
+    const fetchInitialDataa = async () => {
       const genresData = await fetchGenres();
       setGenres(genresData);
     };
-    fetchInitialData();
+    fetchInitialDataa();
   }, []);
 
   const handleChange = (e) => {
